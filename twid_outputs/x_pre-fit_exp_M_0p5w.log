@@ -1,0 +1,20 @@
+>>> including systematics
+>>> using the Ratio of Profiled Likelihoods test statistics (Q_TEV)
+>>> method used to compute upper limit is HybridNew
+>>> random number generator seed is 8192
+Computing limit starting from observation
+  x = 1 +/- 0
+ALERT: Tevatron test statistics not yet validated.
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+	CLs = 0.21371 +/- 0.0293679
+	CLs = 0.200803 +/- 0.0200803
+	CLs      = 0.200803 +/- 0.0200803
+	CLb      = 0.5 +/- 0.0158431
+	CLsplusb = 0.100402 +/- 0.00952281
+
+Hybrid result saved as HypoTestResult_mh172.5_x1_2618602738 in higgsCombinex_pre-fit_exp_M_0p5w.HybridNew.mH172.5.8192.quant0.500.root : higgsCombinex_pre-fit_exp_M_0p5w.HybridNew.mH172.5.8192.quant0.500.root:/toys
+
+ -- Hybrid New -- 
+CLs = 0.200803 +/- 0.0200803
+Done in 0.00 min (cpu), 0.11 min (real)

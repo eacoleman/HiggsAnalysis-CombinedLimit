@@ -9,7 +9,7 @@ parser = OptionParser(
     epilog="The label=datacard.txt syntax allows to specify the label that channels from datacard.txt will have in the combined datacard. To combine cards with different energies one can use dc_7TeV=datacard7.txt dc_8TeV=datacard8.txt (avoid using labels starting with numbers)."
     )
 parser.add_option("-s", "--stat",   dest="stat",          default=False, action="store_true", help="Drop all systematics")
-parser.add_option("-S", "--force-shape", dest="shape",    default=False, action="store_true", help="Treat all channels as shape analysis. Useful for mixed combinations") 
+parser.add_option("-S", "--force-shape", dest="shape",    default=False, action="store_true", help="Treat all channels as shape analysis. Useful for mixed combinations")
 parser.add_option("-a", "--asimov", dest="asimov",  default=False, action="store_true", help="Replace observation with asimov dataset. Works only for counting experiments")
 parser.add_option("-P", "--prefix", type="string", dest="fprefix", default="",  help="Prefix this to all file names")
 parser.add_option("--xc", "--exclude-channel", type="string", dest="channelVetos", default=[], action="append", help="Exclude channels that match this regexp; can specify multiple ones")
@@ -24,7 +24,7 @@ options.nuisancesToExclude = []
 options.verbose = 0
 options.allowNoSignal = True
 options.allowNoBackground = True
-options.evaluateEdits = False 
+options.evaluateEdits = False
 
 if options.nuisVetoFile:
     for line in open(options.nuisVetoFile,"r"):
@@ -36,7 +36,7 @@ obsline = []; obskeyline = [] ;
 keyline = []; expline = []; systlines = {}
 signals = []; backgrounds = []; shapeLines = []
 paramSysts = {}; flatParamNuisances = {}; discreteNuisances = {}; groups = {}; rateParams = {}; rateParamsOrder = set();
-nuisanceEdits = []; 
+nuisanceEdits = [];
 
 cmax = 5 # column width
 if not args:
@@ -51,7 +51,7 @@ for ich,fname in enumerate(args):
     singlebin = (len(DC.bins) == 1)
     if label == ".":
         label=DC.bins[0] if singlebin else "";
-    elif not singlebin: 
+    elif not singlebin:
         label += "_";
     for b in DC.bins:
         bout = label if singlebin else label+b
@@ -83,7 +83,7 @@ for ich,fname in enumerate(args):
 	    b_in  = label if singlebin else b
             if isVetoed(b_in,options.channelVetos): continue
 	    if not isIncluded(b_in,options.channelIncludes): continue
-            if not systeffect.has_key(bout): systeffect[bout] = {} 
+            if not systeffect.has_key(bout): systeffect[bout] = {}
             for p in DC.exp[b].keys(): # so that we get only self.DC.processes contributing to this bin
                 r = str(errline[b][p]);
                 if type(errline[b][p]) == list: r = "%.3f/%.3f" % (errline[b][p][0], errline[b][p][1])
@@ -93,7 +93,7 @@ for ich,fname in enumerate(args):
                 systeffect[bout][p] = r
         if systlines.has_key(lsyst):
             (otherpdf, otherargs, othereffect, othernofloat) = systlines[lsyst]
-            if otherpdf != pdf: 
+            if otherpdf != pdf:
                 if (pdf == "lnN" and otherpdf.startswith("shape")):
                     if systlines[lsyst][0][-1] != '?': systlines[lsyst][0] += '?'
                     for b,v in systeffect.items(): othereffect[b] = v;
@@ -107,24 +107,24 @@ for ich,fname in enumerate(args):
                 else:
                     raise RuntimeError, "File %s defines systematic %s as using pdf %s, while a previous file defines it as using %s" % (fname,lsyst,pdf,otherpdf)
             else:
-                if pdf == "gmN" and int(pdfargs[0]) != int(otherargs[0]): 
+                if pdf == "gmN" and int(pdfargs[0]) != int(otherargs[0]):
                     raise RuntimeError, "File %s defines systematic %s as using gamma with %s events in sideband, while a previous file has %s" % (fname,lsyst,pdfargs[0],otherargs[0])
                 for b,v in systeffect.items(): othereffect[b] = v;
         else:
             pdfargs = [ str(x) for x in pdfargs ]
             systlines[lsyst] = [pdf,pdfargs,systeffect,nofloat]
     # flat params
-    for K in DC.flatParamNuisances.iterkeys(): 
+    for K in DC.flatParamNuisances.iterkeys():
         flatParamNuisances[K] = True
     # rate params
     for K in DC.rateParams.iterkeys():
 	tbin,tproc = K.split("AND")[0],K.split("AND")[1]
-	tbin = label if singlebin else label+tbin 
+	tbin = label if singlebin else label+tbin
 	nK = tbin+"AND"+tproc
 	rateParams[nK] = DC.rateParams[K]
 	rateParamsOrder.update(DC.rateParamsOrder)
     # discrete nuisance
-    for K in DC.discretes: 
+    for K in DC.discretes:
         if discreteNuisances.has_key(K): raise RuntimeError, "Cannot currently correlate discrete nuisances across categories. Rename %s in one."%K
         else: discreteNuisances[K] = True
     # put shapes, if available
@@ -165,7 +165,7 @@ for ich,fname in enumerate(args):
             groups[groupName].update(set(nuisanceNames))
         else:
             groups[groupName] = set(nuisanceNames)
-    
+
     # Finally report nuisance edits propagated to end of card
     for editline in DC.nuisanceEditLines:
       if len(editline)==2: nuisanceEdits.append("%s %s"%(editline[0]," ".join(editline[1])))
@@ -174,8 +174,8 @@ for ich,fname in enumerate(args):
         tmp_chan = editline[2]
         tmp_proc = editline[1]
 
-      	if tmp_chan == "*": # all channels 
-	  tmp_chan = "%s(%s)"%(label,"|".join(c for c in DC.bins)) if len (DC.bins)>1 else label 
+      	if tmp_chan == "*": # all channels
+	  tmp_chan = "%s(%s)"%(label,"|".join(c for c in DC.bins)) if len (DC.bins)>1 else label
 	if tmp_proc == "*":
 	  tmp_proc = "(%s)"%("|".join(p for p in DC.processes))
       	nuisanceEdits.append("%s %s %s %s"%(editline[0],tmp_proc,tmp_chan," ".join(editline[3])))
@@ -246,15 +246,15 @@ for name in sysnamesSorted:
 for (pname, pargs) in paramSysts.items():
     print "%-12s  param  %s" %  (pname, " ".join(pargs))
 
-for pname in flatParamNuisances.iterkeys(): 
+for pname in flatParamNuisances.iterkeys():
     print "%-12s  flatParam" % pname
 for pname in rateParams.iterkeys():
-    for pk in range(len(rateParams[pname])): 
+    for pk in range(len(rateParams[pname])):
      print "%-12s  rateParam %s"% (rateParams[pname][pk][0][0],pname.replace("AND"," ")),
      for p in rateParams[pname][pk][0][1:-1]: print p,
      print rateParams[pname][pk][1],
      print "\n",
-for dname in discreteNuisances.iterkeys(): 
+for dname in discreteNuisances.iterkeys():
     print "%-12s  discrete" % dname
 
 for groupName,nuisanceNames in groups.iteritems():
@@ -262,10 +262,10 @@ for groupName,nuisanceNames in groups.iteritems():
     print '%(groupName)s group = %(nuisances)s' % locals()
 
 nuisanceEdits = set(nuisanceEdits)
-for edit in nuisanceEdits: 
+for edit in nuisanceEdits:
     print "nuisance edit ", edit
 
 if options.editNuisFile:
-    file = open(options.editNuisFile, "r")    
+    file = open(options.editNuisFile, "r")
     str = file.read();
     print str

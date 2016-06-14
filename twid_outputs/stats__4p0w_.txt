@@ -1,0 +1,5 @@
+1 # separation 
+0 # null exceeded density 
+0 # alt exceeded density 
+nulquant;-139.002;-119.618;-102.265;-84.6222;-66.8291;-48.1816;-28.9976;
+altquant;31.3976;45.9632;64.7716;84.9333;103.732;122.818;135.402;
